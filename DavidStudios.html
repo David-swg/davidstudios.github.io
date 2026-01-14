@@ -1,77 +1,93 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>David Studios</title>
+<meta charset="UTF-8">
+<title>David Studios</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    color: #00ff00;
+    font-family: "Courier New", monospace;
+    overflow: hidden;
+  }
 
-  <style>
-    body {
-      background: black;
-      color: #00ff00;
-      font-family: "Courier New", monospace;
-      text-align: center;
-      padding: 40px;
-    }
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
 
-    #logo {
-      font-size: 50px;
-      text-shadow: 0 0 15px #00ff00;
-      margin-bottom: 30px;
-    }
+  #content {
+    text-align: center;
+    padding: 40px;
+  }
 
-    .box {
-      border: 2px solid #00ff00;
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 700px;
-      box-shadow: 0 0 15px #00ff00;
-    }
+  #logo {
+    font-size: 50px;
+    text-shadow: 0 0 15px #00ff00;
+    margin-bottom: 30px;
+  }
 
-    a.game-btn {
-      display: block;
-      margin: 12px auto;
-      padding: 12px 20px;
-      width: 80%;
-      max-width: 400px;
-      color: black;
-      background: #00ff00;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 8px;
-      transition: 0.2s;
-    }
+  .box {
+    border: 2px solid #00ff00;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 700px;
+    box-shadow: 0 0 15px #00ff00;
+    background: rgba(0,0,0,0.6);
+  }
 
-    a.game-btn:hover {
-      background: #00cc00;
-      transform: scale(1.05);
-    }
+  a.game-btn {
+    display: block;
+    margin: 12px auto;
+    padding: 12px 20px;
+    width: 80%;
+    max-width: 400px;
+    color: black;
+    background: #00ff00;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: 0.2s;
+  }
 
-    .discord-btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 14px 28px;
-      color: white;
-      background: #5865F2;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #5865F2;
-    }
+  a.game-btn:hover {
+    background: #00cc00;
+    transform: scale(1.05);
+  }
 
-    .discord-btn:hover {
-      background: #4752c4;
-    }
+  .discord-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 14px 28px;
+    color: white;
+    background: #5865F2;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #5865F2;
+  }
 
-    .footer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: #00aa00;
-    }
-  </style>
+  .discord-btn:hover {
+    background: #4752c4;
+  }
+
+  .footer {
+    margin-top: 40px;
+    font-size: 14px;
+    color: #00aa00;
+  }
+</style>
 </head>
 
 <body>
 
+<canvas id="matrix"></canvas>
+
+<div id="content">
   <div id="logo">💻 DAVID STUDIOS</div>
 
   <div class="box">
@@ -80,44 +96,71 @@
 
   <div class="box">
     <h2>🎮 MES JEUX ROBLOX</h2>
-
     <a class="game-btn" href="https://www.roblox.com/fr/games/75254059050832/Slap-battles" target="_blank">👊 Slap Battles</a>
     <a class="game-btn" href="https://www.roblox.com/fr/games/129433197730854/Survivre-pendant-67-jours" target="_blank">🌲 Survivre pendant 67 jours !</a>
     <a class="game-btn" href="https://www.roblox.com/fr/games/138797058794501/Free-Admin" target="_blank">⚡ Free Admin !</a>
     <a class="game-btn" href="https://www.roblox.com/fr/games/85373430093695/DO-NOT-PRESS-THE-BUTTON" target="_blank">🚨 DO NOT PRESS THE BUTTON</a>
     <a class="game-btn" href="https://www.roblox.com/fr/games/140277531791258/Rival-X" target="_blank">🔥 Rival X</a>
-
-    <!-- Nouveau bouton Contact -->
     <a class="game-btn" href="contact.html">💬 Contact</a>
   </div>
 
-  <!-- 🔥 PARTIE DISCORD -->
   <div class="box">
     <h2>💬 REJOINS LE DISCORD</h2>
     <p>Rejoins la communauté David Studios, parle avec les joueurs et suis les nouveautés !</p>
-
     <a class="discord-btn" href="https://discord.gg/8QVtxFXhwm" target="_blank">🚀 Rejoindre le serveur Discord</a>
   </div>
 
   <div class="footer">
-    © 2026 David Studios 
+    © 2026 David Studios | Hacker Mode 😎
   </div>
+</div>
 
-  <script>
-    const text = "Bienvenue chez David Studios. Studio Roblox créé par David, passionné par la création de jeux. Ici tu trouveras des projets fun, des mises à jour et de nouvelles expériences à venir. Clique sur un jeu pour jouer maintenant et rejoins le Discord !";
-    let i = 0;
-    const speed = 35;
+<audio autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
-    function typeWriter() {
-      if (i < text.length) {
-        document.getElementById("typing").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeWriter, speed);
-      }
-    }
+<script>
+// Texte qui s'écrit
+const text = "Bienvenue chez David Studios. Studio Roblox créé par David, passionné par la création de jeux. Clique sur un jeu pour jouer maintenant et rejoins le Discord !";
+let i = 0;
+const speed = 35;
+function typeWriter() {
+  if (i < text.length) {
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+}
+typeWriter();
 
-    typeWriter();
-  </script>
+// Pluie Matrix
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()";
+const fontSize = 20;
+const columns = canvas.width / fontSize;
+
+const drops = [];
+for (let x = 0; x < columns; x++) drops[x] = 1;
+
+function draw() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#00ff00";
+  ctx.font = fontSize + "px monospace";
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  }
+}
+setInterval(draw, 50);
+</script>
 
 </body>
 </html>
