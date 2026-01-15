@@ -1,35 +1,89 @@
 # david_studios_animation.py
-import time
-import sys
+import pygame
 import random
+import sys
 
-# Couleurs pour le style "Matrix"
-GREEN = "\033[92m"
-RESET = "\033[0m"
+# --------------------------
+# CONFIGURATION
+# --------------------------
+WIDTH, HEIGHT = 800, 600
+FONT_SIZE = 32
+TEXT = "DAVID STUDIOS"
+SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()"
+FPS = 60
 
-# Texte personnalisé
-texte = "DAVID STUDIOS - Innovation & Créativité "
+# --------------------------
+# INITIALISATION PYGAME
+# --------------------------
+pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("David Studios Animation")
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("Courier", FONT_SIZE, bold=True)
 
-# Fonction pour afficher une animation
-def animation():
-    for _ in range(10):  # 10 répétitions
-        ligne = ""
-        for char in texte:
-            if random.random() > 0.7:  # 30% de chance de mettre un symbole hacker
-                ligne += random.choice("!@#$%^&*<>+-=")
-            else:
-                ligne += char
-        print(GREEN + ligne + RESET)
-        time.sleep(0.2)  # pause entre les lignes
+# Couleurs
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+DARK_GREEN = (0, 150, 0)
 
-# Effet de “typing” à la fin
-def typing_effect(message):
-    for char in message:
-        sys.stdout.write(GREEN + char + RESET)
-        sys.stdout.flush()
-        time.sleep(0.05)
-    print()  # saut de ligne
+# --------------------------
+# CLASSES
+# --------------------------
+class Symbol:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.speed = random.randint(5, 15)
+        self.char = random.choice(SYMBOLS)
+    
+    def fall(self):
+        self.y += self.speed
+        if self.y > HEIGHT:
+            self.y = random.randint(-50, 0)
+            self.char = random.choice(SYMBOLS)
+    
+    def draw(self):
+        symbol_surface = font.render(self.char, True, GREEN)
+        screen.blit(symbol_surface, (self.x, self.y))
 
-# Lancer l'animation
-animation()
-typing_effect("Bienvenue dans l'univers de David Studios ")
+# Générer des symboles aléatoires
+symbols = [Symbol(random.randint(0, WIDTH), random.randint(-HEIGHT, 0)) for _ in range(200)]
+
+# --------------------------
+# BOUCLE PRINCIPALE
+# --------------------------
+def main():
+    glitch_timer = 0
+    glitch_text = TEXT
+    while True:
+        screen.fill(BLACK)
+        
+        # Gestion des événements
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        
+        # Dessiner les symboles
+        for symbol in symbols:
+            symbol.fall()
+            symbol.draw()
+        
+        # Texte principal avec effet glitch
+        glitch_timer += 1
+        display_text = glitch_text
+        if glitch_timer % 20 == 0:
+            # Change aléatoirement une lettre pour l'effet glitch
+            display_text = "".join(random.choice(SYMBOLS) if random.random() > 0.7 else c for c in TEXT)
+        text_surface = font.render(display_text, True, GREEN)
+        text_rect = text_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        screen.blit(text_surface, text_rect)
+        
+        pygame.display.flip()
+        clock.tick(FPS)
+
+# --------------------------
+# LANCER L'ANIMATION
+# --------------------------
+if __name__ == "__main__":
+    main()
