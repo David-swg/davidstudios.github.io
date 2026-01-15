@@ -3,83 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <title>David Studios</title>
+
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    background: black;
-    color: #00ff00;
-    font-family: "Courier New", monospace;
-    overflow: hidden;
-  }
+body {
+  margin: 0;
+  background: black;
+  color: #00ff00;
+  font-family: monospace;
+  overflow-x: hidden;
+}
 
-  canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-  }
+/* MATRIX CANVAS */
+#matrix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
 
-  #content {
-    text-align: center;
-    padding: 40px;
-  }
+/* CONTENT */
+.container {
+  text-align: center;
+  padding: 30px;
+}
 
-  #logo {
-    font-size: 50px;
-    text-shadow: 0 0 15px #00ff00;
-    margin-bottom: 30px;
-  }
+h1 {
+  font-size: 3em;
+  text-shadow: 0 0 15px #00ff00;
+}
 
-  .box {
-    border: 2px solid #00ff00;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 700px;
-    box-shadow: 0 0 15px #00ff00;
-    background: rgba(0,0,0,0.6);
-  }
+.box {
+  border: 2px solid #00ff00;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 30px auto;
+  width: 90%;
+  max-width: 400px;
+  background: rgba(0,0,0,0.7);
+  box-shadow: 0 0 15px #00ff00;
+}
 
-  a.game-btn {
-    display: block;
-    margin: 12px auto;
-    padding: 12px 20px;
-    width: 80%;
-    max-width: 400px;
-    color: black;
-    background: #00ff00;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: 0.2s;
-  }
+button {
+  background: black;
+  color: #00ff00;
+  border: 2px solid #00ff00;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
-  a.game-btn:hover {
-    background: #00cc00;
-    transform: scale(1.05);
-  }
+button:hover {
+  background: #00ff00;
+  color: black;
+  box-shadow: 0 0 15px #00ff00;
+}
 
-  .discord-btn {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 14px 28px;
-    color: white;
-    background: #5865F2;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 10px;
-    box-shadow: 0 0 15px #5865F2;
-  }
-
-  .discord-btn:hover {
-    background: #4752c4;
-  }
-
-  .footer {
-    margin-top: 40px;
-    font-size: 14px;
-    color: #00aa00;
-  }
+/* FOOTER */
+footer {
+  margin-top: 50px;
+  opacity: 0.7;
+}
 </style>
 </head>
 
@@ -87,79 +72,96 @@
 
 <canvas id="matrix"></canvas>
 
-<div id="content">
-  <div id="logo">💻 DAVID STUDIOS</div>
+<div class="container">
+  <h1>💻 DAVID STUDIOS 💻</h1>
+  <p>Bienvenue sur mon site officiel </p>
 
   <div class="box">
-    <p id="typing"></p>
-  </div>
-
-  <div class="box">
-    <h2>🎮 MES JEUX ROBLOX</h2>
-    <a class="game-btn" href="https://www.roblox.com/fr/games/75254059050832/Slap-battles" target="_blank">👊 Slap Battles</a>
-    <a class="game-btn" href="https://www.roblox.com/fr/games/129433197730854/Survivre-pendant-67-jours" target="_blank">🌲 Survivre pendant 67 jours !</a>
-    <a class="game-btn" href="https://www.roblox.com/fr/games/138797058794501/Free-Admin" target="_blank">⚡ Free Admin !</a>
-    <a class="game-btn" href="https://www.roblox.com/fr/games/85373430093695/DO-NOT-PRESS-THE-BUTTON" target="_blank">🚨 DO NOT PRESS THE BUTTON</a>
-    <a class="game-btn" href="https://www.roblox.com/fr/games/140277531791258/Rival-X" target="_blank">🔥 Rival X</a>
-    <a class="game-btn" href="contact.html">💬 Contact</a>
+    <h2>🎵 MUSIQUE</h2>
+    <button id="musicBtn">▶ Lancer la musique</button>
   </div>
 
   <div class="box">
-    <h2>💬 REJOINS LE DISCORD</h2>
-    <p>Rejoins la communauté David Studios, parle avec les joueurs et suis les nouveautés !</p>
-    <a class="discord-btn" href="https://discord.gg/8QVtxFXhwm" target="_blank">🚀 Rejoindre le serveur Discord</a>
+    <h2>🎯 MINI-JEU : CLIQUE !</h2>
+    <p>Score : <span id="score">0</span></p>
+    <button id="clickBtn">🔥 CLIQUE ICI 🔥</button>
   </div>
 
-  <div class="footer">
-    © 2026 David Studios 
-  </div>
+  <footer>
+    <p>© 2026 David Studios</p>
+  </footer>
 </div>
 
-<audio autoplay loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-// Texte qui s'écrit
-const text = "Bienvenue chez David Studios. Studio Roblox créé par David, passionné par la création de jeux. Clique sur un jeu pour jouer maintenant et rejoins le Discord !";
-let i = 0;
-const speed = 35;
-function typeWriter() {
-  if (i < text.length) {
-    document.getElementById("typing").innerHTML += text.charAt(i);
-    i++;
-    setTimeout(typeWriter, speed);
-  }
-}
-typeWriter();
-
-// Pluie Matrix
-const canvas = document.getElementById('matrix');
-const ctx = canvas.getContext('2d');
+/* ===== MATRIX RAIN ===== */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()";
-const fontSize = 20;
+const letters = "01DAVIDSTUDIOS#$%&@";
+const fontSize = 16;
 const columns = canvas.width / fontSize;
-
 const drops = [];
-for (let x = 0; x < columns; x++) drops[x] = 1;
 
-function draw() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+for (let i = 0; i < columns; i++) drops[i] = 1;
+
+function drawMatrix() {
+  ctx.fillStyle = "rgba(0,0,0,0.05)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+
   ctx.fillStyle = "#00ff00";
   ctx.font = fontSize + "px monospace";
+
   for (let i = 0; i < drops.length; i++) {
-    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    const text = letters[Math.floor(Math.random() * letters.length)];
     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+      drops[i] = 0;
+
     drops[i]++;
   }
 }
-setInterval(draw, 50);
+setInterval(drawMatrix, 33);
+
+/* ===== MUSIQUE ===== */
+const music = new Audio(
+  "https://cdn.pixabay.com/audio/2022/03/15/audio_9c0f0c9f0a.mp3"
+);
+const musicBtn = document.getElementById("musicBtn");
+let playing = false;
+
+musicBtn.addEventListener("click", () => {
+  if (!playing) {
+    music.play();
+    musicBtn.textContent = "⏸ Pause musique";
+  } else {
+    music.pause();
+    musicBtn.textContent = "▶ Lancer la musique";
+  }
+  playing = !playing;
+});
+
+/* ===== MINI GAME CLICK ===== */
+let score = 0;
+const btn = document.getElementById("clickBtn");
+const scoreText = document.getElementById("score");
+
+btn.addEventListener("click", () => {
+  score++;
+  scoreText.textContent = score;
+
+  btn.style.transform = "scale(1.2)";
+  setTimeout(() => btn.style.transform = "scale(1)", 100);
+});
+
+/* RESIZE */
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
 </script>
 
 </body>
